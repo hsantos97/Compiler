@@ -56,6 +56,22 @@ type_token *getToken() {
     else if (string[pos] == MULT) {
        token->tag = MULT;
        strcpy(token->lexema, "*");
+       pos++;
+    }
+    else if (string[pos] == DIV) {
+       token->tag = DIV;
+       strcpy(token->lexema, "/");
+       pos++;
+    }
+    else if (string[pos] == OPENPAREN) {
+       token->tag = OPENPAREN;
+       strcpy(token->lexema, "(");
+       pos++;
+    }
+    else if (string[pos] == CLOSEPAREN) {
+       token->tag = CLOSEPAREN;
+       strcpy(token->lexema, ")");
+       pos++;
     }
     //Verifica se FIM DE CADEIA
     else if (string[pos] == ENDTOKEN) {

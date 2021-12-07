@@ -29,6 +29,12 @@ void genMult(){
     printf("mult rax,rbx\n");
     printf("push rax\n");
 }
+void genDiv(){
+    printf("pop rax\n");
+    printf("pop rbx\n");
+    printf("div rax,rbx\n");
+    printf("push rax\n");
+}
 /**
  * @brief Funcao que gera codigo de montagem para armazenamento de NUMERAL
  * 

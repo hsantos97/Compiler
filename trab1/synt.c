@@ -83,6 +83,7 @@ int TR() {
         test1 = F();
         if(test1)
             test2 = TR();
+        genDiv();
         return test1 && test2;
         //Complete o codigo para tratar também a divisao, que tem mesma precedencia da multiplicacao
         //...
@@ -111,7 +112,7 @@ int F() {
         return test1 && test2;
     } else if ( digit() ) {
         //Aqui iremos editar no futuro para processar o digito (a partir do lexico) e gerar codigo
-        F();
+        
         return true;
     } else {
         return false;

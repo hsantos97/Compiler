@@ -7,8 +7,8 @@
 
 // Variaveis globais no modulo de teste
 type_token *lookahead;
-int pos;
-char string[MAX_CHAR];
+// int pos;
+// char string[MAX_CHAR];
 
 // Funcao principal, para teste do lexico
 int main(){
