@@ -121,7 +121,7 @@ int F() {
 
 
 
-
+/*   -----------------------------------------COMENTEI AQUIIIII -------------------------------
 
 /**
  * @brief Regra de derivacao da gramatica: LIST
@@ -140,7 +140,7 @@ int list() {
  * 
  * @return int true/false
  */
-/*   -----------------------------------------COMENTEI AQUIIIII -------------------------------
+/*
 int listR() {
     int test1, test2;
     //Verifica ocorrencia de terminal '+'
