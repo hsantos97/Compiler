@@ -1,4 +1,4 @@
-# Compiler
+# Módulos do curso de Compiladores - UFMT
 
 ## Módulos:
  - Análise Sintática
