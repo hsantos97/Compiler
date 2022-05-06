@@ -31,18 +31,18 @@ int match(int token_tag)
  * 
  * @return int true/false
  */
-int digit()
-{
-    char aux_lexema[MAX_TOKEN];
-    strcpy(aux_lexema, lookahead->lexema); //armazena temporariamente o lexema
+// int digit()
+// {
+//     char aux_lexema[MAX_TOKEN];
+//     strcpy(aux_lexema, lookahead->lexema); //armazena temporariamente o lexema
 
-    if (match(NUM))
-    {
-        genNum(aux_lexema); //Geracao de codigo por meio de funcao do GERADOR
-        return true;
-    }
-    return false;
-}
+//     if (match(NUM))
+//     {
+//         genNum(aux_lexema); //Geracao de codigo por meio de funcao do GERADOR
+//         return true;
+//     }
+//     return false;
+// }
 
 /**
  * @brief Regra de derivacao da gramatica: E->TE'
@@ -65,9 +65,6 @@ int E(type_code *e_code)
 
     if (test1)
         test2 = ER(last_operation, er_code);
-
-    strcpy(e_code->code, t_code->code);
-    test2 = ER(last_operation, er_code);
 
     strcpy(e_code->code, t_code->code);
     strcat(e_code->code, er_code->code);
@@ -107,6 +104,7 @@ int ER(int *lastoperation, type_code *er_code)
     type_code *t_code;
     type_code *er1_code;
     int *lOperation;
+
     lOperation = (int *)malloc(sizeof(int));
     t_code = (type_code *)malloc(sizeof(type_code));
     er1_code = (type_code *)malloc(sizeof(type_code));
@@ -116,11 +114,16 @@ int ER(int *lastoperation, type_code *er_code)
         match('+');
         *lastoperation = (int)'+';
         test1 = T(t_code);
-        strcpy(er_code->temp, t_code->temp);
+
         if (test1)
             test2 = ER(lOperation, er1_code);
+
+        //COPIA TEMPORARIO T PARA ER
+        strcpy(er_code->temp, t_code->temp);
+        //copia codigo
         strcpy(er_code->code, t_code->code);
         strcpy(er_code->code, er1_code->code);
+
         return test1 && test2;
     }
     else if (lookahead->tag == '-')
@@ -131,30 +134,32 @@ int ER(int *lastoperation, type_code *er_code)
         strcpy(er_code->temp, t_code->temp);
         if (test1)
             test2 = ER(lOperation, er1_code);
+
         strcpy(er_code->code, t_code->code);
         strcpy(er_code->code, er1_code->code);
+
         return test1 && test2;
     }
     else if (lookahead->tag == ')')
     {
-        strcpy(er_code->code, '\0');
+        strcpy(er_code->code, "\0");
         return true;
     }
     else if (lookahead->tag == ENDTOKEN)
     {
-        strcpy(er_code->temp, ' ');
+        strcpy(er_code->temp, "");
         (*lastoperation) = '\0';
         return true;
     }
     else if (lookahead->tag == '*')
     {
-        strcpy(er_code->temp, ' ');
+        strcpy(er_code->temp, "");
         (*lastoperation) = '\0';
         return true;
     }
-    else if (lookahead->tag == ENDTOKEN)
+    else if (lookahead->tag == '/')
     {
-        strcpy(er_code->temp, ' ');
+        strcpy(er_code->temp, "");
         (*lastoperation) = '\0';
         return true;
     }
@@ -185,30 +190,31 @@ int T(type_code *t_code)
 
     if (test1)
         test2 = TR(lastoperation, tr_code);
+
     strcpy(t_code->code, f_code->code);
     strcpy(t_code->code, tr_code->code);
 
     switch (*lastoperation)
     {
-    case '+':
+    case '*':
         strcat(t_code->code, t_code->temp);
-        strcat(t_code->code, '=');
+        strcat(t_code->code, "=");
         strcat(t_code->code, f_code->temp);
-        strcat(t_code->code, '+');
+        strcat(t_code->code, "*");
         strcat(t_code->code, tr_code->temp);
         break;
-    case '-':
+    case '/':
         strcat(t_code->code, t_code->temp);
-        strcat(t_code->code, '=');
+        strcat(t_code->code, "=");
         strcat(t_code->code, f_code->temp);
-        strcat(t_code->code, '-');
+        strcat(t_code->code, "/");
         strcat(t_code->code, tr_code->temp);
         break;
     case '\0':
         strcat(t_code->code, t_code->temp);
-        strcat(t_code->code, '=');
+        strcat(t_code->code, "=");
         strcat(t_code->code, tr_code->temp);
-        strcat(t_code->code, '\n');
+        strcat(t_code->code, "\n");
         break;
     }
     return test1 && test2;
@@ -225,54 +231,47 @@ int TR(int *lastoperation, type_code *tr_code)
     type_code *f_code;
     type_code *tr1_code;
     int *lOperation;
+
     lOperation = (int *)malloc(sizeof(int));
     f_code = (type_code *)malloc(sizeof(type_code));
     tr1_code = (type_code *)malloc(sizeof(type_code));
 
-    if (lookahead->tag == '+')
+    if (lookahead->tag == '*')
     {
-        match('+');
-        *lastoperation = (int)'+';
+        match('*');
+        *lastoperation = (int)'*';
         test1 = F(f_code);
         strcpy(tr_code->temp, f_code->temp);
         if (test1)
             test2 = TR(lOperation, tr1_code);
+
         strcpy(tr_code->code, f_code->code);
         strcpy(tr_code->code, tr1_code->code);
+
         return test1 && test2;
     }
-    else if (lookahead->tag == '-')
+    else if (lookahead->tag == '/')
     {
-        match('-');
-        *lastoperation = (int)'-';
+        match('/');
+        *lastoperation = (int)'/';
         test1 = F(f_code);
         strcpy(tr_code->temp, f_code->temp);
         if (test1)
-            test2 = ER(lOperation, tr1_code);
+            test2 = TR(lOperation, tr1_code);
+
         strcpy(tr_code->code, f_code->code);
         strcpy(tr_code->code, tr1_code->code);
+
         return test1 && test2;
     }
-    else if (lookahead->tag == ')')
+    else if (lookahead->tag == ')' || lookahead->tag == '+' || lookahead->tag == '-')
     {
-        strcpy(tr_code->code, '\0');
+        strcpy(tr_code->code, "\0");
         return true;
     }
     else if (lookahead->tag == ENDTOKEN)
     {
-        strcpy(tr_code->temp, ' ');
-        (*lastoperation) = '\0';
-        return true;
-    }
-    else if (lookahead->tag == '*')
-    {
-        strcpy(tr_code->temp, ' ');
-        (*lastoperation) = '\0';
-        return true;
-    }
-    else if (lookahead->tag == ENDTOKEN)
-    {
-        strcpy(tr_code->temp, '0');
+        strcpy(tr_code->temp, "");
         (*lastoperation) = '\0';
         return true;
     }
@@ -290,30 +289,36 @@ int TR(int *lastoperation, type_code *tr_code)
 int F(type_code *f_code)
 {
     type_code *e_code;
+    int test1;
+
     e_code = (type_code *)malloc(sizeof(type_code));
-    if (lookahead->tag == '(')
+
+    if (lookahead->tag == NUM)
+    {
+
+        char lexema[MAX_TOKEN];
+        strcpy(lexema, lookahead->lexema);
+        test1 = match(NUM);
+        newTemp(f_code->temp);
+        strcpy(f_code->code, f_code->temp);
+        strcat(f_code->code, "=");
+        strcat(f_code->code, lexema);
+        strcat(f_code->code, "\n");
+
+        return test1;
+    }
+    else if (lookahead->tag == '(')
     {
         int test1, test2;
         match('(');
         test1 = E(e_code);
         if (test1)
             test2 = match(')');
+
         strcpy(f_code->temp, e_code->temp);
         strcpy(f_code->code, e_code->code);
+
         return test1 && test2;
-    }
-    else if (lookahead->tag == NUM)
-    {
-        int test1;
-        char lexema[MAX_TOKEN];
-        strcpy(lexema, lookahead->lexema);
-        test1 = match(NUM);
-        newTemp(f_code->temp);
-        strcpy(f_code->code, f_code->temp);
-        strcpy(f_code->code, '=');
-        strcpy(f_code->code, lexema);
-        strcpy(f_code->code, '\n');
-        return test1;
     }
     else
     {
@@ -349,6 +354,7 @@ int main()
     if (accept)
     {
         printf("\tCadeia PERTENCENTE a linguagem\n");
+        //printf("\tCadeia PERTENCENTE a linguagem\n");
     }
     else
     {

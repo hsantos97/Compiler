@@ -23,11 +23,11 @@
 type_token *lookahead;
 
 // Prototipos
-int E();
-int ER();
-int T();
-int TR();
-int F();
+int E(type_code *);
+int ER(int *, type_code *);
+int T(type_code *);
+int TR(int *, type_code *);
+int F(type_code *);
 int digit();
 int match(int token_tag);
 

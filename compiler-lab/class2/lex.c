@@ -15,7 +15,8 @@
  *        de entrada.
  * 
  */
-void initLex() {
+void initLex()
+{
     printf("Informe uma expressao para ser avaliada:");
     gets(string);
 }
@@ -26,72 +27,84 @@ void initLex() {
  * 
  * @return type_token* 
  */
-type_token *getToken() {
+type_token *getToken()
+{
     char buffer[MAX_CHAR];
     int pos_buffer;
     type_token *token;
-    
+
     pos_buffer = 0;
-    token = (type_token*) malloc(sizeof(type_token));
+    token = (type_token *)malloc(sizeof(type_token));
 
     // Consome espacos
-    while ( isspace(string[pos]) ) {
+    while (isspace(string[pos]))
+    {
         pos++;
     }
 
     // Verifica se NUMERO
-    if ( isdigit(string[pos]) ) {
+    if (isdigit(string[pos]))
+    {
         // constroi buffer com os digitos
-        while ( isdigit(string[pos]) ) {
+        while (isdigit(string[pos]))
+        {
             buffer[pos_buffer++] = string[pos++];
         }
         buffer[pos_buffer] = '\0';
         token->tag = NUM;
-        strcpy( token->lexema, buffer ); //copia buffer para lexema
-    } 
+        strcpy(token->lexema, buffer); //copia buffer para lexema
+    }
     //Verifica se PLUS (+)
-    else if (string[pos] == PLUS) {
+    else if (string[pos] == PLUS)
+    {
         token->tag = PLUS;
         strcpy(token->lexema, "+");
         pos++;
     }
     //Verifica se MINUS (-)
-    else if (string[pos] == MINUS) {
+    else if (string[pos] == MINUS)
+    {
         token->tag = MINUS;
         strcpy(token->lexema, "-");
         pos++;
     }
     //Verifica se MULT (*)
-    else if (string[pos] == MULT) {
+    else if (string[pos] == MULT)
+    {
         token->tag = MULT;
         strcpy(token->lexema, "*");
         pos++;
     }
     //Verifica se DIV (/)
-    else if (string[pos] == DIV) {
+    else if (string[pos] == DIV)
+    {
         token->tag = DIV;
         strcpy(token->lexema, "/");
         pos++;
     }
     //Verifica se OPEN_PAR -> "("
-    else if (string[pos] == OPEN_PAR) {
+    else if (string[pos] == OPEN_PAR)
+    {
         token->tag = OPEN_PAR;
         strcpy(token->lexema, "(");
         pos++;
     }
     //Verifica se CLOSE_PAR -> ")"
-    else if (string[pos] == CLOSE_PAR) {
+    else if (string[pos] == CLOSE_PAR)
+    {
         token->tag = CLOSE_PAR;
         strcpy(token->lexema, ")");
         pos++;
     }
     //Verifica se FIM DE CADEIA
-    else if (string[pos] == ENDTOKEN) {
+    else if (string[pos] == ENDTOKEN)
+    {
         token->tag = ENDTOKEN;
         strcpy(token->lexema, "");
     }
     //ERRO
-    else {
+    else
+    {
         token->tag = ERROR;
         strcpy(token->lexema, "");
     }

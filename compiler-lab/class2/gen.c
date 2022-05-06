@@ -15,7 +15,8 @@
  * 
  * @param label 
  */
-void newTemp(char label[32]) {
+void newTemp(char label[32])
+{
     static int label_count = 0;
     sprintf(label, "t%d", label_count++);
 }
