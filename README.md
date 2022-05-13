@@ -1,5 +1,8 @@
 # Compilers course modules - UFMT
 
+### - Features
+<img align="center" alt="C" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" />
+
 ## Modules:
 
 ### - Lexical Analysis:
@@ -12,7 +15,6 @@
 ### - Code Generation:
  - code generation is part of the process chain of a compiler and converts intermediate representation of source code into a form machine code that can be readily executed by the target system.
 
-### - Features
-<img align="center" alt="C" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" />
+
 
 
