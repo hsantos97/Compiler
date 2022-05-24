@@ -1,0 +1,5 @@
+bison -d nome.y //gearr o cabeçalho
+flex nome.l
+gcc -c nomes dos arquivos.c 
+gcc -o comp  nome dos arquivos
+./comp
