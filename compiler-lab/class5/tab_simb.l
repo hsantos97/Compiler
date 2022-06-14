@@ -6,7 +6,7 @@
 %} 
 %% 
     /* variables */ 
-[a-z]       { 
+[a-z]+       { 
                 yylval = *yytext - 'a'; 
                 return VARIABLE; 
             } 
